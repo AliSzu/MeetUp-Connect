@@ -1,5 +1,6 @@
 package meetup.connect.event;
 
+import meetup.connect.common.page.PageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,9 @@ public class EventService {
     return eventRepository.save(mappedEvent);
   }
 
-  public Page<Event> getPage(Integer page, Integer size) {
+  public PageResponse<Event> getPage(Integer page, Integer size) {
     PageRequest pageRequest = PageRequest.of(page, size);
-    return eventRepository.findAll(pageRequest);
+    Page<Event> events = eventRepository.findAll(pageRequest);
+    return new PageResponse<>(events);
   }
 }
