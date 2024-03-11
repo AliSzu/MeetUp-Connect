@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class EventServiceTest {
 
-  @InjectMocks private EventServiceImpl eventServiceImpl;
+  @InjectMocks private EventService eventService;
   @Mock private EventRepository eventRepository;
 
   @Test
@@ -28,7 +28,7 @@ class EventServiceTest {
     Page<Event> events = mock(Page.class);
     when(eventRepository.findAll(any(PageRequest.class))).thenReturn(events);
 
-    eventServiceImpl.getPage(0, 10);
+    eventService.getPage(0, 10);
 
     verify(eventRepository).findAll(any(PageRequest.class));
   }
@@ -40,7 +40,7 @@ class EventServiceTest {
     Page<Event> eventsPage = EventFactory.getPage(0, 10, eventsList);
 
     when(eventRepository.findAll(any(PageRequest.class))).thenReturn(eventsPage);
-    Page<Event> resultPage = eventServiceImpl.getPage(0, 10);
+    Page<Event> resultPage = eventService.getPage(0, 10);
 
     assertTrue(resultPage.isEmpty());
 
@@ -54,7 +54,7 @@ class EventServiceTest {
     Page<Event> eventsPage = EventFactory.getPage(0, 5, eventsList);
 
     when(eventRepository.findAll(any(PageRequest.class))).thenReturn(eventsPage);
-    Page<Event> resultPage = eventServiceImpl.getPage(0, 10);
+    Page<Event> resultPage = eventService.getPage(0, 10);
 
     assertEquals(2, resultPage.getTotalPages());
 
