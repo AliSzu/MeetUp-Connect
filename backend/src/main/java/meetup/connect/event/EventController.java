@@ -3,6 +3,7 @@ package meetup.connect.event;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import meetup.connect.common.page.PageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class EventController {
 
   @GetMapping()
   @Operation(description = "Lists events")
-  Page<Event> getEventPage(
+  PageResponse<Event> getEventPage(
       @Parameter(description = "The initial page from which to return the results.")
           @RequestParam(required = false, defaultValue = "0")
           Integer page,
