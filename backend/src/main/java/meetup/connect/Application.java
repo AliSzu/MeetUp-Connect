@@ -14,20 +14,4 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Component
-	public static class DataLoader implements CommandLineRunner {
-
-		private final DataGenerator dataGenerator;
-
-		@Autowired
-		public DataLoader(DataGenerator dataGenerator) {
-			this.dataGenerator = dataGenerator;
-		}
-
-		@Override
-		public void run(String... args) {
-			dataGenerator.generateData();
-		}
-	}
-
 }

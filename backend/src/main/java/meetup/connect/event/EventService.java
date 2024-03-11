@@ -5,8 +5,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface EventService {
-    Event createEvent(EventCreateDto event);
+  Event createEvent(EventCreateDto event);
 
-    Page<Event> getPage(Integer page, Integer size);
-
+  Page<Event> getPage(Integer page, Integer size);
 }
