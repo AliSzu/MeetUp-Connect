@@ -37,4 +37,11 @@ public class EventService {
             .orElseThrow(() -> new MeetUpException(MeetUpError.EVENT_NOT_FOUND));
     return eventMapper.entityToDto(event);
   }
+
+  public void deleteById(Long id) {
+    if (!eventRepository.existsById(id)) {
+      throw new MeetUpException(MeetUpError.EVENT_NOT_FOUND);
+    }
+    eventRepository.deleteById(id);
+  }
 }
