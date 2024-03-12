@@ -1,5 +1,7 @@
 package meetup.connect.event;
 
+import meetup.connect.common.exception.MeetUpError;
+import meetup.connect.common.exception.MeetUpException;
 import meetup.connect.common.page.PageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,13 +19,22 @@ public class EventService {
   }
 
   public Event createEvent(EventCreateDto event) {
-    Event mappedEvent = eventMapper.dtoToEntity(event);
+    Event mappedEvent = eventMapper.createDtoToEntity(event);
     return eventRepository.save(mappedEvent);
   }
 
-  public PageResponse<Event> getPage(Integer page, Integer size) {
+  public PageResponse<EventDto> getPage(Integer page, Integer size) {
     PageRequest pageRequest = PageRequest.of(page, size);
-    Page<Event> events = eventRepository.findAll(pageRequest);
-    return new PageResponse<>(events);
+    Page<Event> eventPages = eventRepository.findAll(pageRequest);
+    Page<EventDto> eventDtoPages = eventPages.map(eventMapper::entityToDto);
+    return new PageResponse<>(eventDtoPages);
+  }
+
+  public EventDto getById(Long id) {
+    Event event =
+        eventRepository
+            .findById(id)
+            .orElseThrow(() -> new MeetUpException(MeetUpError.EVENT_NOT_FOUND));
+    return eventMapper.entityToDto(event);
   }
 }

@@ -1,6 +1,7 @@
 package meetup.connect.testutils;
 
 import meetup.connect.event.Event;
+import meetup.connect.event.EventDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +24,16 @@ public abstract class EventFactory {
     event.setCreatedAt(LocalDateTime.now().minusDays(11));
 
     return event;
+  }
+
+  public static EventDto createDto() {
+    return new EventDto(
+        new Random().nextLong(),
+        "Friendly Picnic",
+        LocalDateTime.now(),
+        LocalDateTime.now().plusDays(10),
+        "Berlin AlexanderPlatz",
+        LocalDateTime.now().minusDays(11));
   }
 
   public static List<Event> createEventList(int size) {
