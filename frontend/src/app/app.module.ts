@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { HeaderModule } from './shared/header/header.module';
+import { NavbarModule } from './shared/navbar/navbar.module';
 import { HomeComponent } from './features/home/home.component';
 import { ProfileComponent } from './features/profile/profile.component';
 
@@ -18,7 +18,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, ProfileComponent],
-  imports: [BrowserModule, RouterModule.forRoot(routes), HeaderModule, NgbModule],
+  imports: [BrowserModule, RouterModule.forRoot(routes), NavbarModule, NgbModule],
   providers: [],
   bootstrap: [AppComponent],
 })
