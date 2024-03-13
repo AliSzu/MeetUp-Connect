@@ -10,4 +10,15 @@ public record EventDto(
     LocalDateTime dateTo,
     String address,
     LocalDateTime createdAt)
-    implements Serializable {}
+    implements Serializable {
+
+  public static EventDto fromEntity(Event event) {
+    return new EventDto(
+        event.getId(),
+        event.getName(),
+        event.getDateFrom(),
+        event.getDateTo(),
+        event.getAddress(),
+        event.getCreatedAt());
+  }
+}

@@ -23,7 +23,6 @@ class EventServiceTest {
 
   @InjectMocks private EventService eventService;
   @Mock private EventRepository eventRepository;
-  @Mock private EventMapper eventMapper;
 
   @Test
   @DisplayName("When there are no events, the page should be empty")
@@ -46,7 +45,6 @@ class EventServiceTest {
     Page<Event> eventsPage = EventFactory.getPage(0, 5, eventsList);
 
     when(eventRepository.findAll(any(PageRequest.class))).thenReturn(eventsPage);
-    when(eventMapper.entityToDto(any())).thenReturn(EventFactory.createDto());
     PageResponse<EventDto> resultPage = eventService.getPage(0, 10);
 
     assertEquals(2, resultPage.getPageable().getTotalPages());
