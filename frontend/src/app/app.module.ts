@@ -7,16 +7,18 @@ import { HomeComponent } from './features/home/home.component';
 import { ProfileComponent } from './features/profile/profile.component';
 
 import { RouterModule, Routes } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Route } from './core/constants/route';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+  { path: Route.Home, component: HomeComponent },
+  { path: Route.Profile, component: ProfileComponent },
+  { path: '**', redirectTo: Route.Home, pathMatch: 'full' }
 ];
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, ProfileComponent],
-  imports: [BrowserModule, RouterModule.forRoot(routes), HeaderModule],
+  imports: [BrowserModule, RouterModule.forRoot(routes), HeaderModule, NgbModule],
   providers: [],
   bootstrap: [AppComponent],
 })
