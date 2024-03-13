@@ -5,10 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import meetup.connect.common.page.PageResponse;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +22,7 @@ public class EventController {
 
   @GetMapping()
   @Operation(description = "Lists events")
-  PageResponse<Event> getEventPage(
+  PageResponse<EventDto> getEventPage(
       @Parameter(description = "The initial page from which to return the results.")
           @RequestParam(required = false, defaultValue = "0")
           Integer page,
@@ -33,5 +30,11 @@ public class EventController {
           @RequestParam(required = false, defaultValue = "5")
           Integer size) {
     return eventService.getPage(page, size);
+  }
+
+  @GetMapping("/{id}")
+  @Operation(description = "Get event by ID")
+  EventDto getEventById(@PathVariable Long id) {
+    return eventService.getById(id);
   }
 }
