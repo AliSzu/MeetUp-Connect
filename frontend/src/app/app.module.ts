@@ -9,6 +9,7 @@ import { ProfileComponent } from './features/profile/profile.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Route } from './core/constants/route';
+import { HomeModule } from './features/home/home.module';
 
 const routes: Routes = [
   { path: Route.Home, component: HomeComponent },
@@ -17,8 +18,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, ProfileComponent],
-  imports: [BrowserModule, RouterModule.forRoot(routes), NavbarModule, NgbModule],
+  declarations: [AppComponent, ProfileComponent],
+  imports: [BrowserModule, RouterModule.forRoot(routes), NavbarModule, NgbModule, HomeModule],
   providers: [],
   bootstrap: [AppComponent],
 })
