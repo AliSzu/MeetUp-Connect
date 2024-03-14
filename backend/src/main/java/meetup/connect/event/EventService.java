@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class EventService {
 
@@ -25,9 +24,7 @@ public class EventService {
   public PageResponse<EventDto> getPage(Integer page, Integer size) {
     PageRequest pageRequest = PageRequest.of(page, size);
 
-    Page<EventDto> entities = eventRepository
-            .findAll(pageRequest)
-            .map(EventDto::fromEntity);
+    Page<EventDto> entities = eventRepository.findAll(pageRequest).map(EventDto::fromEntity);
 
     return new PageResponse<>(entities);
   }
