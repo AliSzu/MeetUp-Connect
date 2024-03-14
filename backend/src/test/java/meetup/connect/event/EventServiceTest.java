@@ -53,7 +53,7 @@ class EventServiceTest {
   }
 
   @Test
-  @DisplayName("When Event does noe exists throws MeetUp Exception")
+  @DisplayName("When Event does not exists throws MeetUp Exception")
   void shouldThrowMeetUpExceptionWhenEventNotExists() {
     Long nonExistentEventId = 999L;
     when(eventRepository.findById(anyLong())).thenReturn(Optional.empty());
