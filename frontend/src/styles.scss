@@ -1,4 +1,6 @@
 @import "./app/styles/_variables";
+@import '~bootstrap/scss/bootstrap';
+@import '~bootstrap/scss/mixins';
 
 html,
 body {
@@ -9,3 +11,4 @@ body {
   overflow-x: hidden;
   background-color: var(--light-color);
 }
+

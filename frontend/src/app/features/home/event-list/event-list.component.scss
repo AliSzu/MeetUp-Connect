@@ -1,0 +1,57 @@
+@import "../../../../styles.scss";
+
+$list-columns: 5; // Default number of columns
+
+.list {
+  display: grid;
+  grid-template-columns: repeat($list-columns, 1fr);
+  row-gap: 30px;
+}
+
+@include media-breakpoint-down(xxxl) {
+  .list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@include media-breakpoint-down(xl) {
+  .list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@include media-breakpoint-down(lg) {
+  .list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .list {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+// @include media-breakpoint-down(xl) {
+//   .list {
+//     grid-template-columns: repeat(3, 1fr);
+//   }
+// }
+
+// @include media-breakpoint-up(1560px) {
+//   .list {
+//     grid-template-columns: repeat(5, 1fr);
+//   }
+// }
+
+.container_2 {
+  display: "flex";
+  align-items: center;
+  justify-content: center;
+}
+
+.item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
