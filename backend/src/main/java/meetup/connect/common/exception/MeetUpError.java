@@ -5,7 +5,8 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum MeetUpError {
-  EVENT_NOT_FOUND("event not found", HttpStatus.NOT_FOUND);
+  EVENT_NOT_FOUND("event not found", HttpStatus.NOT_FOUND),
+  EMAIL_TAKEN("user with this email already exists", HttpStatus.CONFLICT);
 
   private final String message;
   private final HttpStatus httpStatus;
