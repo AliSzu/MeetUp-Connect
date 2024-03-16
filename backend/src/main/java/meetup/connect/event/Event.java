@@ -17,6 +17,7 @@ public class Event {
   private LocalDateTime dateFrom;
   private LocalDateTime dateTo;
   private String address;
+  private EventType type;
   @CreationTimestamp private LocalDateTime createdAt;
 
   public Event(
@@ -25,13 +26,15 @@ public class Event {
       LocalDateTime dateFrom,
       LocalDateTime dateTo,
       String address,
-      LocalDateTime createdAt) {
+      LocalDateTime createdAt,
+      EventType type) {
     this.id = id;
     this.name = name;
     this.dateFrom = dateFrom;
     this.dateTo = dateTo;
     this.address = address;
     this.createdAt = createdAt;
+    this.type = type;
   }
 
   public Event() {}
@@ -44,11 +47,12 @@ public class Event {
     return Objects.equals(name, event.name)
         && Objects.equals(dateFrom, event.dateFrom)
         && Objects.equals(dateTo, event.dateTo)
-        && Objects.equals(address, event.address);
+        && Objects.equals(address, event.address)
+        && Objects.equals(type, event.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, dateFrom, dateTo, address);
+    return Objects.hash(name, dateFrom, dateTo, address, type);
   }
 }

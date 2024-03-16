@@ -1,10 +1,6 @@
 package meetup.connect.config;
 
-import meetup.connect.event.Event;
-import meetup.connect.event.EventCreateDto;
-import meetup.connect.event.EventRepository;
-import meetup.connect.event.EventService;
-import org.springframework.beans.factory.annotation.Autowired;
+import meetup.connect.event.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import com.github.javafaker.Faker;
@@ -29,18 +25,28 @@ public class DataGenerator implements CommandLineRunner {
   public void generateData() {
     List<Event> events = eventRepository.findAll();
     if (events.isEmpty()) {
-      for (int i = 0; i < 10; i++) {
-        EventCreateDto event =
-            new EventCreateDto(
-                faker.name().title(),
-                LocalDateTime.ofInstant(
-                    faker.date().birthday().toInstant(), ZoneId.systemDefault()),
-                LocalDateTime.ofInstant(
-                    faker.date().birthday().toInstant(), ZoneId.systemDefault()),
-                faker.address().fullAddress());
-        eventService.createEvent(event);
-      }
+      createEvents(4, EventType.PARTY);
+      createEvents(10, EventType.CULTURAL_EVENT);
+      createEvents(1, EventType.CASUAL_GET_TOGETHER);
     }
+  }
+
+  private void createEvents(int timeOffset, EventType eventType) {
+    for (int i = 0; i < 4; i++) {
+      LocalDateTime randomDate = generateRandomDate(faker);
+      EventCreateDto event =
+          new EventCreateDto(
+              faker.name().title(),
+              randomDate.minusHours(timeOffset),
+              randomDate,
+              faker.address().fullAddress(),
+              eventType);
+      eventService.createEvent(event);
+    }
+  }
+
+  private static LocalDateTime generateRandomDate(Faker faker) {
+    return LocalDateTime.ofInstant(faker.date().birthday().toInstant(), ZoneId.systemDefault());
   }
 
   @Override

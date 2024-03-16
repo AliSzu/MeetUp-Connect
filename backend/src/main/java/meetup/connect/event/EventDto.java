@@ -1,5 +1,8 @@
 package meetup.connect.event;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -9,6 +12,7 @@ public record EventDto(
     LocalDateTime dateFrom,
     LocalDateTime dateTo,
     String address,
+    EventType type,
     LocalDateTime createdAt)
     implements Serializable {
 
@@ -19,6 +23,7 @@ public record EventDto(
         event.getDateFrom(),
         event.getDateTo(),
         event.getAddress(),
+        event.getType(),
         event.getCreatedAt());
   }
 }

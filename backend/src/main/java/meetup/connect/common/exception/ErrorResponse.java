@@ -20,4 +20,11 @@ public class ErrorResponse {
     this.httpStatus = meetUpError.getHttpStatus();
     this.time = time;
   }
+
+  public ErrorResponse(String message, HttpStatus httpStatus, Integer code, LocalDateTime time) {
+    this.message = message;
+    this.code = code;
+    this.httpStatus = httpStatus;
+    this.time = time;
+  }
 }
