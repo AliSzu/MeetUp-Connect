@@ -10,13 +10,13 @@ import java.time.format.DateTimeFormatter;
 @Configuration
 public class MeetUpDateConfig {
 
-    private static final String dateTimeFormat = "yyyy-MM-dd HH:mm";
+    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
 
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
         return builder -> {
-            builder.simpleDateFormat(dateTimeFormat);
-            builder.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(dateTimeFormat)));
+            builder.simpleDateFormat(DATE_TIME_FORMAT);
+            builder.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)));
         };
     }
 

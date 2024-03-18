@@ -17,7 +17,7 @@ public class ControllerExceptionHandler {
 
   @ExceptionHandler(MeetUpException.class)
   public ResponseEntity<ErrorResponse> handleException(MeetUpException ex) {
-    ErrorResponse error = new ErrorResponse(ex.getMeetUpError(), LocalDateTime.now());
+    ErrorResponse error = new ErrorResponse(ex.getMeetUpError());
     return new ResponseEntity<>(error, ex.getMeetUpError().getHttpStatus());
   }
 
@@ -26,7 +26,7 @@ public class ControllerExceptionHandler {
     String errorMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
     ErrorResponse error =
         new ErrorResponse(
-            errorMessage, HttpStatus.BAD_REQUEST, ex.getStatusCode().value(), LocalDateTime.now());
+            errorMessage, HttpStatus.BAD_REQUEST);
     return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
   }
 
@@ -41,10 +41,10 @@ public class ControllerExceptionHandler {
       meetUpError = ((MeetUpException) mostSpecificCause).getMeetUpError();
     } else {
       ErrorResponse error =
-          new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST, 404, LocalDateTime.now());
+          new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
       return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
-    ErrorResponse error = new ErrorResponse(meetUpError, LocalDateTime.now());
+    ErrorResponse error = new ErrorResponse(meetUpError);
     return new ResponseEntity<>(error, meetUpError.getHttpStatus());
   }
 }

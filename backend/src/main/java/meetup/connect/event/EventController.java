@@ -7,8 +7,6 @@ import jakarta.validation.Valid;
 import meetup.connect.common.page.PageResponse;
 import org.springframework.web.bind.annotation.*;
 
-
-
 @RestController
 @Tag(name = "Event")
 @RequestMapping("/api/events")
@@ -44,9 +42,9 @@ public class EventController {
     eventService.deleteById(id);
   }
 
-  @PostMapping()
+  @PostMapping
   @Operation(description = "Create event")
-  EventDto createEvent( @Valid @RequestBody EventCreateDto event) {
+  EventDto createEvent(@Valid @RequestBody EventCreateDto event) {
     return eventService.createEvent(event);
   }
 }

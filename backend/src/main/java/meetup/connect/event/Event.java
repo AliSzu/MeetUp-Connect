@@ -37,6 +37,15 @@ public class Event {
     this.type = type;
   }
 
+  public Event(
+      String name, LocalDateTime dateFrom, LocalDateTime dateTo, String address, EventType type) {
+    this.name = name;
+    this.dateFrom = dateFrom;
+    this.dateTo = dateTo;
+    this.address = address;
+    this.type = type;
+  }
+
   public Event() {}
 
   @Override

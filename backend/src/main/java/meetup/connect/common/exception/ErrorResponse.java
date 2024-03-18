@@ -14,17 +14,17 @@ public class ErrorResponse {
   private Integer code;
   private LocalDateTime time;
 
-  public ErrorResponse(MeetUpError meetUpError, LocalDateTime time) {
+  public ErrorResponse(MeetUpError meetUpError) {
     this.message = meetUpError.getMessage();
     this.code = meetUpError.getHttpStatus().value();
     this.httpStatus = meetUpError.getHttpStatus();
-    this.time = time;
+    this.time = LocalDateTime.now();
   }
 
-  public ErrorResponse(String message, HttpStatus httpStatus, Integer code, LocalDateTime time) {
+  public ErrorResponse(String message, HttpStatus httpStatus) {
     this.message = message;
-    this.code = code;
+    this.code = httpStatus.value();
     this.httpStatus = httpStatus;
-    this.time = time;
+    this.time = LocalDateTime.now();
   }
 }
