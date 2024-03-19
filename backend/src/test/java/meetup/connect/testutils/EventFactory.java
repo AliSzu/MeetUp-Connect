@@ -1,6 +1,7 @@
 package meetup.connect.testutils;
 
 import meetup.connect.event.Event;
+import meetup.connect.event.EventCreateDto;
 import meetup.connect.event.EventDto;
 import meetup.connect.event.EventType;
 import org.springframework.data.domain.Page;
@@ -24,8 +25,18 @@ public abstract class EventFactory {
     event.setType(EventType.CULTURAL_EVENT);
     event.setDateTo(LocalDateTime.now().plusDays(10));
     event.setCreatedAt(LocalDateTime.now().minusDays(11));
+    event.setOwner(UserFactory.createUser());
 
     return event;
+  }
+
+  public static EventCreateDto createDto() {
+    return new EventCreateDto(
+        "Friendly Picnic",
+        LocalDateTime.now().plusHours(2),
+        LocalDateTime.now().plusHours(4),
+        "Berlin Platz",
+        EventType.CULTURAL_EVENT);
   }
 
   public static List<Event> createEventList(int size) {

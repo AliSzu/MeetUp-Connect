@@ -1,6 +1,7 @@
 package meetup.connect.event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import meetup.connect.user.UserShortDto;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -13,10 +14,12 @@ public record EventDto(
     LocalDateTime dateTo,
     String address,
     EventType type,
-    LocalDateTime createdAt)
+    LocalDateTime createdAt,
+    UserShortDto owner)
     implements Serializable {
 
   public static EventDto fromEntity(Event event) {
+
     return new EventDto(
         event.getId(),
         event.getName(),
@@ -24,6 +27,8 @@ public record EventDto(
         event.getDateTo(),
         event.getAddress(),
         event.getType(),
-        event.getCreatedAt());
+        event.getCreatedAt(),
+        new UserShortDto(
+            event.getOwner().getId(), event.getOwner().getName(), event.getOwner().getUsername()));
   }
 }

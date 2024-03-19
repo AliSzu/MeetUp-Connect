@@ -3,22 +3,27 @@ package meetup.connect.event;
 import meetup.connect.common.exception.MeetUpError;
 import meetup.connect.common.exception.MeetUpException;
 import meetup.connect.common.page.PageResponse;
+import meetup.connect.user.User;
+import meetup.connect.user.UserRepository;
+import meetup.connect.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class EventService {
 
   private final EventRepository eventRepository;
+  private final UserService userService;
 
-  public EventService(EventRepository eventRepository) {
+  public EventService(EventRepository eventRepository, UserService userService) {
     this.eventRepository = eventRepository;
+    this.userService = userService;
   }
 
-  public EventDto createEvent(EventCreateDto event) {
-    Event createdEvent = eventRepository.save(EventCreateDto.toEntity(event));
+  public EventDto createEvent(EventCreateDto event, String email) {
+    User user = userService.findByEmail(email);
+    Event createdEvent = eventRepository.save(EventCreateDto.toEntity(event, user));
     return EventDto.fromEntity(createdEvent);
   }
 
@@ -37,10 +42,16 @@ public class EventService {
         .orElseThrow(() -> new MeetUpException(MeetUpError.EVENT_NOT_FOUND));
   }
 
-  public void deleteById(Long id) {
-    if (!eventRepository.existsById(id)) {
-      throw new MeetUpException(MeetUpError.EVENT_NOT_FOUND);
+  public void deleteById(Long id, String email) {
+    Event event = eventRepository.findById(id).orElseThrow(() -> new MeetUpException(MeetUpError.EVENT_NOT_FOUND));
+    User user = userService.findByEmail(email);
+    if(!isOwnerOfEvent(user, event.getOwner())) {
+      throw new MeetUpException(MeetUpError.INSUFFICIENT_PERMISSIONS);
     }
     eventRepository.deleteById(id);
+  }
+
+  private boolean isOwnerOfEvent(User user, User eventOwner) {
+    return eventOwner.equals(user);
   }
 }

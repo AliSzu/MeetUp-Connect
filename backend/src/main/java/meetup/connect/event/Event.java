@@ -3,6 +3,7 @@ package meetup.connect.event;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import meetup.connect.user.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,9 @@ public class Event {
   private LocalDateTime dateTo;
   private String address;
   private EventType type;
+  @ManyToOne
+  @JoinColumn(name = "owner_id", nullable=false)
+  private User owner;
   @CreationTimestamp private LocalDateTime createdAt;
 
   public Event(
@@ -38,12 +42,13 @@ public class Event {
   }
 
   public Event(
-      String name, LocalDateTime dateFrom, LocalDateTime dateTo, String address, EventType type) {
+      String name, LocalDateTime dateFrom, LocalDateTime dateTo, String address, EventType type, User owner) {
     this.name = name;
     this.dateFrom = dateFrom;
     this.dateTo = dateTo;
     this.address = address;
     this.type = type;
+    this.owner = owner;
   }
 
   public Event() {}
