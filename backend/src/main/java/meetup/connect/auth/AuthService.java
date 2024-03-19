@@ -31,14 +31,13 @@ public class AuthService {
   }
 
   public AuthResponse register(RegisterRequest request) {
-    Optional<User> newUser = userService.findByEmail(request.getEmail());
-    if(newUser.isPresent()) {
+    if(userService.checkIfExistsByEmail(request.email())) {
       throw new MeetUpException(MeetUpError.EMAIL_TAKEN);
     }
     User user = new User();
-    user.setEmail(request.getEmail());
-    user.setPassword(passwordEncoder.encode(request.getPassword()));
-    user.setName(request.getUsername());
+    user.setEmail(request.email());
+    user.setPassword(passwordEncoder.encode(request.password()));
+    user.setName(request.username());
     userService.createUser(user);
     final String jwtToken = jwtService.generateToken(user);
     return new AuthResponse(jwtToken);
@@ -46,9 +45,9 @@ public class AuthService {
 
   public AuthResponse authenticate(AuthRequest request) {
     authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        new UsernamePasswordAuthenticationToken(request.email(), request.password()));
 
-    User user = userService.findByEmail(request.getEmail()).orElseThrow();
+    User user = userService.findByEmail(request.email());
     final String jwtToken = jwtService.generateToken(user);
     return new AuthResponse(jwtToken);
   }

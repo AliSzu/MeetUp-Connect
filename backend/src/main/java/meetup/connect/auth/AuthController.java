@@ -1,6 +1,7 @@
 package meetup.connect.auth;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,12 +20,12 @@ public class AuthController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+  public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
     return ResponseEntity.ok(authService.register(request));
   }
 
   @PostMapping("/authenticate")
-  public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest request) {
+  public ResponseEntity<AuthResponse> authenticate(@Valid  @RequestBody AuthRequest request) {
     return ResponseEntity.ok(authService.authenticate(request));
   }
 }

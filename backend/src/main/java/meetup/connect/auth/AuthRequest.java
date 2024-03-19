@@ -1,18 +1,12 @@
 package meetup.connect.auth;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import meetup.connect.common.converter.ToLowerCase;
 
-@Getter
-@Setter
-public class AuthRequest {
-  private String email;
+public record AuthRequest(
+        @NotBlank @ToLowerCase String email,
+        @NotBlank String password) {
 
-  private String password;
-
-  public AuthRequest(String email, String password) {
-    this.email = email;
-    this.password = password;
-  }
-  public AuthRequest() {}
 }
