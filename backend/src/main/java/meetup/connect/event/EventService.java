@@ -6,6 +6,7 @@ import meetup.connect.common.page.PageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class EventService {
@@ -16,9 +17,9 @@ public class EventService {
     this.eventRepository = eventRepository;
   }
 
-  public Event createEvent(EventCreateDto event) {
-    Event mappedEvent = EventCreateDto.toEntity(event);
-    return eventRepository.save(mappedEvent);
+  public EventDto createEvent(EventCreateDto event) {
+    Event createdEvent = eventRepository.save(EventCreateDto.toEntity(event));
+    return EventDto.fromEntity(createdEvent);
   }
 
   public PageResponse<EventDto> getPage(Integer page, Integer size) {

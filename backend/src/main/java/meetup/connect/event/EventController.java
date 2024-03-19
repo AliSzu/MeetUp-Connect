@@ -3,11 +3,9 @@ package meetup.connect.event;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import meetup.connect.common.page.PageResponse;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @Tag(name = "Event")
@@ -42,5 +40,11 @@ public class EventController {
   @Operation(description = "Delete event by ID")
   void deleteById(@PathVariable Long id) {
     eventService.deleteById(id);
+  }
+
+  @PostMapping
+  @Operation(description = "Create event")
+  EventDto createEvent(@Valid @RequestBody EventCreateDto event) {
+    return eventService.createEvent(event);
   }
 }
