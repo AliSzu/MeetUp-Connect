@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,9 +20,18 @@ public class Event {
   private LocalDateTime dateTo;
   private String address;
   private EventType type;
+
   @ManyToOne
-  @JoinColumn(name = "owner_id", nullable=false)
+  @JoinColumn(name = "owner_id", nullable = false)
   private User owner;
+
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(
+      name = "user_event",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "event_id"))
+  private Set<User> attendees;
+
   @CreationTimestamp private LocalDateTime createdAt;
 
   public Event(
@@ -42,7 +52,12 @@ public class Event {
   }
 
   public Event(
-      String name, LocalDateTime dateFrom, LocalDateTime dateTo, String address, EventType type, User owner) {
+      String name,
+      LocalDateTime dateFrom,
+      LocalDateTime dateTo,
+      String address,
+      EventType type,
+      User owner) {
     this.name = name;
     this.dateFrom = dateFrom;
     this.dateTo = dateTo;

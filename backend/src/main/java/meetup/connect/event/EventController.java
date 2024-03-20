@@ -46,7 +46,15 @@ public class EventController {
 
   @PostMapping
   @Operation(description = "Create event")
-  EventDto createEvent(@Valid @RequestBody EventCreateDto event, @AuthenticationPrincipal UserDetails userDetails) {
+  EventDto createEvent(
+      @Valid @RequestBody EventCreateDto event, @AuthenticationPrincipal UserDetails userDetails) {
     return eventService.createEvent(event, userDetails.getUsername());
+  }
+
+  @PostMapping("/{id}/attendees")
+  @Operation(description = "Manage event attendance (sign up or sign out)")
+  void manageEventAttendance(
+      @AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
+    eventService.manageEventAttendance(userDetails.getUsername(), id);
   }
 }

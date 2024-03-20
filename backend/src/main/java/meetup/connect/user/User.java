@@ -21,8 +21,10 @@ public class User implements UserDetails {
   private String name;
   private String email;
   private String password;
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL )
   private Set<Event> organizedEvents;
+  @ManyToMany(mappedBy = "attendees")
+  private Set<Event> events;
 
   public User(Long id, String name, String email, String password) {
     this.id = id;

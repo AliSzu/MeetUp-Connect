@@ -43,15 +43,37 @@ public class EventService {
   }
 
   public void deleteById(Long id, String email) {
-    Event event = eventRepository.findById(id).orElseThrow(() -> new MeetUpException(MeetUpError.EVENT_NOT_FOUND));
+    Event event =
+        eventRepository
+            .findById(id)
+            .orElseThrow(() -> new MeetUpException(MeetUpError.EVENT_NOT_FOUND));
     User user = userService.findByEmail(email);
-    if(!isOwnerOfEvent(user, event.getOwner())) {
+    if (!isOwnerOfEvent(user, event.getOwner())) {
       throw new MeetUpException(MeetUpError.INSUFFICIENT_PERMISSIONS);
     }
     eventRepository.deleteById(id);
   }
 
+  public void manageEventAttendance(String email, Long id) {
+    Event event =
+        eventRepository
+            .findById(id)
+            .orElseThrow(() -> new MeetUpException(MeetUpError.EVENT_NOT_FOUND));
+    User user = userService.findByEmail(email);
+    if (isAttendingEvent(user, event)) {
+
+      event.getAttendees().remove(user);
+    } else {
+      event.getAttendees().add(user);
+    }
+    eventRepository.save(event);
+  }
+
   private boolean isOwnerOfEvent(User user, User eventOwner) {
     return eventOwner.equals(user);
+  }
+
+  private boolean isAttendingEvent(User user, Event event) {
+    return event.getAttendees().contains(user);
   }
 }

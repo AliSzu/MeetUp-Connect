@@ -6,6 +6,8 @@ import meetup.connect.event.EventDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -28,4 +30,9 @@ public class UserService {
   public boolean checkIfExistsByEmail(String email) {
     return userRepository.existsByEmail(email);
   }
+
+  public Set<UserReadDto> findAll() {
+    return userRepository.findAll().stream().map(UserReadDto::fromEntity).collect(Collectors.toSet());
+  }
+
 }
