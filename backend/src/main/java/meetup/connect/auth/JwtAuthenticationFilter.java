@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import java.io.IOException;
 
 @Component
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private static final String HTTP_AUTHORIZATION_HEADER = "Authorization";
@@ -26,10 +28,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private final JwtService jwtService;
   private final UserDetailsService userDetailsService;
 
-  public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
-    this.jwtService = jwtService;
-    this.userDetailsService = userDetailsService;
-  }
 
   @Override
   protected void doFilterInternal(
@@ -51,7 +49,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     jwtToken =
         authHeader.substring(
             BEARER_TOKEN_PREFIX_LENGTH); // Extract token that starts with Bearer: token
-    System.out.println(jwtToken);
     userEmail = jwtService.extractUsername(jwtToken);
 
     // Check if user exists and if is not already authenticated
