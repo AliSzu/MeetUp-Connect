@@ -19,8 +19,8 @@ public class UserService {
 
   public User findByEmail(String email) {
     return userRepository
-            .findByEmail(email)
-            .orElseThrow(() -> new MeetUpException(MeetUpError.EMAIL_NOT_FOUND));
+        .findByEmail(email)
+        .orElseThrow(() -> new MeetUpException(MeetUpError.EMAIL_NOT_FOUND));
   }
 
   public User createUser(User user) {
@@ -32,7 +32,8 @@ public class UserService {
   }
 
   public Set<UserReadDto> findAll() {
-    return userRepository.findAll().stream().map(UserReadDto::fromEntity).collect(Collectors.toSet());
+    return userRepository.findAll().stream()
+        .map(UserReadDto::fromEntity)
+        .collect(Collectors.toSet());
   }
-
 }
