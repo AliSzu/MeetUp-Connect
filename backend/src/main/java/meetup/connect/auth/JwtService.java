@@ -14,12 +14,11 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-  SecretKey key = Jwts.SIG.HS256.key().build();
-  private static final long EXPIRATION_IN_SECONDS = 120;
+  private final SecretKey key = Jwts.SIG.HS256.key().build();
+  private static final long EXPIRATION_IN_SECONDS = 7200; // 2 hours
   private static final long SECOND_IN_MILLIS = 1000;
 
   public String extractUsername(String token) {
-      System.out.println(extractClaim(token, Claims::getIssuer));
     return extractClaim(token, Claims::getSubject);
   }
 
@@ -33,10 +32,8 @@ public class JwtService {
     return Jwts.builder()
         .claims(extraClaims)
         .subject(userDetails.getUsername())
-
         .issuedAt(new Date(System.currentTimeMillis())) // when token was created
-        .expiration(
-            new Date(expiringAt)) // how long token should be valid
+        .expiration(new Date(expiringAt)) // how long token should be valid
         .signWith(key, Jwts.SIG.HS256)
         .compact(); // singing key
   }
