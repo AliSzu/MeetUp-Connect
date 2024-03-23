@@ -1,6 +1,6 @@
-package meetup.connect.event;
+package meetup.connect.meetupevent;
 
-public enum EventType {
+public enum MeetUpEventType {
   CASUAL_GET_TOGETHER,
   CULTURAL_EVENT,
   PARTY,

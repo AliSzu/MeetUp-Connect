@@ -1,4 +1,4 @@
-package meetup.connect.event;
+package meetup.connect.meetupevent;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,13 +14,13 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-public class Event {
+public class MeetUpEvent {
   @Id @GeneratedValue private Long id;
   private String name;
   private LocalDateTime dateFrom;
   private LocalDateTime dateTo;
   private String address;
-  private EventType type;
+  private MeetUpEventType type;
 
   @ManyToOne
   @JoinColumn(name = "owner_id", nullable = false)
@@ -35,14 +35,14 @@ public class Event {
 
   @CreationTimestamp private LocalDateTime createdAt;
 
-  public Event(
+  public MeetUpEvent(
       Long id,
       String name,
       LocalDateTime dateFrom,
       LocalDateTime dateTo,
       String address,
       LocalDateTime createdAt,
-      EventType type,
+      MeetUpEventType type,
       User owner,
       Set<User> attendees) {
     this.id = id;
@@ -56,12 +56,12 @@ public class Event {
     this.attendees = attendees;
   }
 
-  public Event(
+  public MeetUpEvent(
       String name,
       LocalDateTime dateFrom,
       LocalDateTime dateTo,
       String address,
-      EventType type,
+      MeetUpEventType type,
       User owner) {
     this.name = name;
     this.dateFrom = dateFrom;
@@ -71,22 +71,30 @@ public class Event {
     this.owner = owner;
   }
 
-  public Event() {}
+  public MeetUpEvent() {}
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    Event event = (Event) o;
-    return Objects.equals(name, event.name)
-        && Objects.equals(dateFrom, event.dateFrom)
-        && Objects.equals(dateTo, event.dateTo)
-        && Objects.equals(address, event.address)
-        && Objects.equals(type, event.type);
+    MeetUpEvent meetUpEvent = (MeetUpEvent) o;
+    return Objects.equals(name, meetUpEvent.name)
+        && Objects.equals(dateFrom, meetUpEvent.dateFrom)
+        && Objects.equals(dateTo, meetUpEvent.dateTo)
+        && Objects.equals(address, meetUpEvent.address)
+        && Objects.equals(type, meetUpEvent.type);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(name, dateFrom, dateTo, address, type);
+  }
+
+  public void addAttendee(User user) {
+    this.attendees.add(user);
+  }
+
+  public void removeAttendee(User user) {
+    this.attendees.remove(user);
   }
 }

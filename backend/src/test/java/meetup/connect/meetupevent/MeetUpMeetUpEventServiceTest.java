@@ -1,4 +1,4 @@
-package meetup.connect.event;
+package meetup.connect.meetupevent;
 
 import meetup.connect.common.exception.MeetUpException;
 import meetup.connect.common.page.PageResponse;
@@ -6,7 +6,6 @@ import meetup.connect.testutils.Constants;
 import meetup.connect.testutils.EventFactory;
 import meetup.connect.testutils.UserFactory;
 import meetup.connect.user.User;
-import meetup.connect.user.UserRepository;
 import meetup.connect.user.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,60 +23,60 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class EventServiceTest {
+class MeetUpMeetUpEventServiceTest {
 
-  @InjectMocks private EventService eventService;
+  @InjectMocks private MeetUpEventService meetUpEventService;
   @Mock private UserService userService;
-  @Mock private EventRepository eventRepository;
+  @Mock private MeetUpEventRepository meetUpEventRepository;
 
   @Test
   @DisplayName("When there are no events, the page should be empty")
   void pageShouldBeEmptyWhenThereIsNoData() {
-    List<Event> eventsList = EventFactory.createEventList(0);
-    Page<Event> eventsPage = EventFactory.getPage(0, 10, eventsList);
+    List<MeetUpEvent> eventsList = EventFactory.createEventList(0);
+    Page<MeetUpEvent> eventsPage = EventFactory.getPage(0, 10, eventsList);
 
-    when(eventRepository.findAll(any(PageRequest.class))).thenReturn(eventsPage);
-    PageResponse<EventDto> resultPage = eventService.getPage(0, 10);
+    when(meetUpEventRepository.findAll(any(PageRequest.class))).thenReturn(eventsPage);
+    PageResponse<MeetUpEventDto> resultPage = meetUpEventService.getPage(0, 10);
 
     assertTrue(resultPage.getContent().isEmpty());
 
-    verify(eventRepository).findAll(any(PageRequest.class));
+    verify(meetUpEventRepository).findAll(any(PageRequest.class));
   }
 
   @Test
   @DisplayName("Leftover page should exist when there is excess data for a single page")
   void leftoverPageShouldExistWhenThereIsExcessDataForSinglePage() {
-    List<Event> eventsList = EventFactory.createEventList(6);
-    Page<Event> eventsPage = EventFactory.getPage(0, 5, eventsList);
+    List<MeetUpEvent> eventsList = EventFactory.createEventList(6);
+    Page<MeetUpEvent> eventsPage = EventFactory.getPage(0, 5, eventsList);
 
-    when(eventRepository.findAll(any(PageRequest.class))).thenReturn(eventsPage);
-    PageResponse<EventDto> resultPage = eventService.getPage(0, 10);
+    when(meetUpEventRepository.findAll(any(PageRequest.class))).thenReturn(eventsPage);
+    PageResponse<MeetUpEventDto> resultPage = meetUpEventService.getPage(0, 10);
 
     assertEquals(2, resultPage.getPageable().getTotalPages());
 
-    verify(eventRepository).findAll(any(PageRequest.class));
+    verify(meetUpEventRepository).findAll(any(PageRequest.class));
   }
 
   @Test
   @DisplayName("When Event does not exists throws MeetUp Exception")
   void shouldThrowMeetUpExceptionWhenEventNotExists() {
     Long nonExistentEventId = 999L;
-    when(eventRepository.findById(anyLong())).thenReturn(Optional.empty());
-    assertThrows(MeetUpException.class, () -> eventService.getById(nonExistentEventId));
-    verify(eventRepository).findById(nonExistentEventId);
+    when(meetUpEventRepository.findById(anyLong())).thenReturn(Optional.empty());
+    assertThrows(MeetUpException.class, () -> meetUpEventService.getById(nonExistentEventId));
+    verify(meetUpEventRepository).findById(nonExistentEventId);
   }
 
   @Test
   @DisplayName("Event's owner should be the user who created the event")
   void eventShouldHaveOwner() {
-    EventCreateDto event = EventFactory.createDto();
+    MeetUpEventCreateDto event = EventFactory.createDto();
     User user = UserFactory.createUser();
-    Event eventWithUser = EventCreateDto.toEntity(event, user);
+    MeetUpEvent meetUpEventWithUser = MeetUpEventCreateDto.toEntity(event, user);
 
     when(userService.findByEmail(any(String.class))).thenReturn(user);
-    when(eventRepository.save(any())).thenReturn(eventWithUser);
+    when(meetUpEventRepository.save(any())).thenReturn(meetUpEventWithUser);
 
-    EventDto finalEvent = eventService.createEvent(event, user.getEmail());
+    MeetUpEventDto finalEvent = meetUpEventService.createEvent(event, user.getEmail());
     assertEquals(user.getEmail(), finalEvent.owner().email());
   }
 
@@ -88,13 +87,13 @@ class EventServiceTest {
     User user2 = UserFactory.createUser();
     user.setEmail(Constants.RANDOM_EMAIL_1);
     user2.setEmail(Constants.RANDOM_EMAIL_2);
-    Event event = EventFactory.create();
-    event.setOwner(user);
+    MeetUpEvent meetUpEvent = EventFactory.create();
+    meetUpEvent.setOwner(user);
 
-    when(eventRepository.findById(any())).thenReturn(Optional.of(event));
+    when(meetUpEventRepository.findById(any())).thenReturn(Optional.of(meetUpEvent));
     when(userService.findByEmail(any(String.class))).thenReturn(user2);
 
     assertThrows(
-        MeetUpException.class, () -> eventService.deleteById(event.getId(), user2.getEmail()));
+        MeetUpException.class, () -> meetUpEventService.deleteById(meetUpEvent.getId(), user2.getEmail()));
   }
 }

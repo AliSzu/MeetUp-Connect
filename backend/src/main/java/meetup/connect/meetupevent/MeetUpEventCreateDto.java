@@ -1,8 +1,7 @@
-package meetup.connect.event;
+package meetup.connect.meetupevent;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import meetup.connect.common.exception.MeetUpError;
@@ -11,19 +10,18 @@ import meetup.connect.user.User;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collections;
 
-public record EventCreateDto(
+public record MeetUpEventCreateDto(
     @NotBlank @Size(max = 50, message = "Name is too long") String name,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm") @NotNull
         LocalDateTime dateFrom,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm") @NotNull
         LocalDateTime dateTo,
     @NotBlank @Size(max = 100, message = "Address is too long") String address,
-    @NotNull EventType type)
+    @NotNull MeetUpEventType type)
     implements Serializable {
 
-  public EventCreateDto {
+  public MeetUpEventCreateDto {
 
     if (dateFrom != null && dateTo != null && type != null) {
 
@@ -42,8 +40,8 @@ public record EventCreateDto(
     }
   }
 
-  public static Event toEntity(EventCreateDto eventDto, User user) {
-    return new Event(
+  public static MeetUpEvent toEntity(MeetUpEventCreateDto eventDto, User user) {
+    return new MeetUpEvent(
         eventDto.name(),
         eventDto.dateFrom(),
         eventDto.dateTo(),
@@ -53,8 +51,8 @@ public record EventCreateDto(
   }
 
   private boolean isMultipleDaysCasualEvent(
-      EventType type, LocalDateTime dateFrom, LocalDateTime dateTo) {
-    return (type == EventType.CASUAL_GET_TOGETHER || type == EventType.PARTY)
+          MeetUpEventType type, LocalDateTime dateFrom, LocalDateTime dateTo) {
+    return (type == MeetUpEventType.CASUAL_GET_TOGETHER || type == MeetUpEventType.PARTY)
         && !dateFrom.toLocalDate().isEqual(dateTo.toLocalDate());
   }
 

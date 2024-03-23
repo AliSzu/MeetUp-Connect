@@ -1,9 +1,8 @@
 package meetup.connect.testutils;
 
-import meetup.connect.event.Event;
-import meetup.connect.event.EventCreateDto;
-import meetup.connect.event.EventDto;
-import meetup.connect.event.EventType;
+import meetup.connect.meetupevent.MeetUpEvent;
+import meetup.connect.meetupevent.MeetUpEventCreateDto;
+import meetup.connect.meetupevent.MeetUpEventType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -16,42 +15,42 @@ import java.util.Random;
 
 public abstract class EventFactory {
 
-  public static Event create() {
-    final Event event = new Event();
-    event.setId(new Random().nextLong());
-    event.setName("Friendly Picnic");
-    event.setAddress("Berlin AlexanderPlatz 223-1");
-    event.setDateFrom(LocalDateTime.now());
-    event.setType(EventType.CULTURAL_EVENT);
-    event.setDateTo(LocalDateTime.now().plusDays(10));
-    event.setCreatedAt(LocalDateTime.now().minusDays(11));
-    event.setOwner(UserFactory.createUser());
+  public static MeetUpEvent create() {
+    final MeetUpEvent meetUpEvent = new MeetUpEvent();
+    meetUpEvent.setId(new Random().nextLong());
+    meetUpEvent.setName("Friendly Picnic");
+    meetUpEvent.setAddress("Berlin AlexanderPlatz 223-1");
+    meetUpEvent.setDateFrom(LocalDateTime.now());
+    meetUpEvent.setType(MeetUpEventType.CULTURAL_EVENT);
+    meetUpEvent.setDateTo(LocalDateTime.now().plusDays(10));
+    meetUpEvent.setCreatedAt(LocalDateTime.now().minusDays(11));
+    meetUpEvent.setOwner(UserFactory.createUser());
 
-    return event;
+    return meetUpEvent;
   }
 
-  public static EventCreateDto createDto() {
-    return new EventCreateDto(
+  public static MeetUpEventCreateDto createDto() {
+    return new MeetUpEventCreateDto(
         "Friendly Picnic",
         LocalDateTime.now().plusHours(2),
         LocalDateTime.now().plusHours(4),
         "Berlin Platz",
-        EventType.CULTURAL_EVENT);
+        MeetUpEventType.CULTURAL_EVENT);
   }
 
-  public static List<Event> createEventList(int size) {
-    List<Event> eventList = new ArrayList<>();
+  public static List<MeetUpEvent> createEventList(int size) {
+    List<MeetUpEvent> meetUpEventList = new ArrayList<>();
     for (int i = 0; i < size; i++) {
-      eventList.add(create());
+      meetUpEventList.add(create());
     }
-    return eventList;
+    return meetUpEventList;
   }
 
-  public static Page<Event> getPage(int page, int size, List<Event> allEvents) {
+  public static Page<MeetUpEvent> getPage(int page, int size, List<MeetUpEvent> allMeetUpEvents) {
     Pageable pageRequest = PageRequest.of(page, size);
     int start = (int) pageRequest.getOffset();
-    int end = Math.min((start + pageRequest.getPageSize()), allEvents.size());
-    List<Event> pageContent = allEvents.subList(start, end);
-    return new PageImpl<>(pageContent, pageRequest, allEvents.size());
+    int end = Math.min((start + pageRequest.getPageSize()), allMeetUpEvents.size());
+    List<MeetUpEvent> pageContent = allMeetUpEvents.subList(start, end);
+    return new PageImpl<>(pageContent, pageRequest, allMeetUpEvents.size());
   }
 }
