@@ -57,13 +57,15 @@ public class Event {
       LocalDateTime dateTo,
       String address,
       EventType type,
-      User owner) {
+      User owner,
+      Set<User> attendees) {
     this.name = name;
     this.dateFrom = dateFrom;
     this.dateTo = dateTo;
     this.address = address;
     this.type = type;
     this.owner = owner;
+    this.attendees = attendees;
   }
 
   public Event() {}

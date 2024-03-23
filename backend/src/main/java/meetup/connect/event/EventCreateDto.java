@@ -11,6 +11,7 @@ import meetup.connect.user.User;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 public record EventCreateDto(
     @NotBlank @Size(max = 50, message = "Name is too long") String name,
@@ -48,7 +49,8 @@ public record EventCreateDto(
         eventDto.dateTo(),
         eventDto.address(),
         eventDto.type(),
-            user);
+            user,
+            Collections.emptySet());
   }
 
   private boolean isMultipleDaysCasualEvent(
