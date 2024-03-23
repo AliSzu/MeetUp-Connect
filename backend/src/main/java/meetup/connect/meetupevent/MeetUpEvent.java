@@ -34,6 +34,7 @@ public class MeetUpEvent {
   private Set<User> attendees = new HashSet<>();
 
   @CreationTimestamp private LocalDateTime createdAt;
+  private String googleCalendarEventId;
 
   public MeetUpEvent(
       Long id,

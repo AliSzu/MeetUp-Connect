@@ -21,8 +21,10 @@ public class User implements UserDetails {
   private String name;
   private String email;
   private String password;
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL )
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
   private Set<MeetUpEvent> organizedMeetUpEvents;
+
   @ManyToMany(mappedBy = "attendees")
   private Set<MeetUpEvent> meetUpEvents;
 
@@ -83,5 +85,9 @@ public class User implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  public boolean isGmailUser() {
+    return this.getEmail().contains("@gmail.com");
   }
 }

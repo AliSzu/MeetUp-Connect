@@ -13,7 +13,8 @@ public enum MeetUpError {
   THE_SAME_DATE("The start date and the end date must be different", HttpStatus.BAD_REQUEST),
   PAST_DATE("The start date must be in the future", HttpStatus.BAD_REQUEST),
   EMAIL_NOT_FOUND("user with this email does not exists", HttpStatus.NOT_FOUND),
-  INSUFFICIENT_PERMISSIONS("insufficient permissions", HttpStatus.UNAUTHORIZED);
+  INSUFFICIENT_PERMISSIONS("insufficient permissions", HttpStatus.UNAUTHORIZED),
+  OWNER_ATTENDEE("owner can not register/unregister from the event that they are hosting", HttpStatus.CONFLICT);
 
   private final String message;
   private final HttpStatus httpStatus;
