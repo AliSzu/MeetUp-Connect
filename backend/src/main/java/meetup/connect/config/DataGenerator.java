@@ -32,7 +32,6 @@ public class DataGenerator implements CommandLineRunner {
   public void generateData() {
     List<MeetUpEvent> meetUpEvents = meetUpEventRepository.findAll();
     User user = userService.createUser(new User(faker.name().toString(), faker.internet().emailAddress(), faker.internet().password()));
-    System.out.println(user);
     if (meetUpEvents.isEmpty()) {
       createEvents(2, MeetUpEventType.PARTY, user.getEmail());
       createEvents(10, MeetUpEventType.CULTURAL_EVENT, user.getEmail());
