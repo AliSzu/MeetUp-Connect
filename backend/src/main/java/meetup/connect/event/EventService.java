@@ -4,11 +4,11 @@ import meetup.connect.common.exception.MeetUpError;
 import meetup.connect.common.exception.MeetUpException;
 import meetup.connect.common.page.PageResponse;
 import meetup.connect.user.User;
-import meetup.connect.user.UserRepository;
 import meetup.connect.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EventService {
@@ -21,6 +21,7 @@ public class EventService {
     this.userService = userService;
   }
 
+  @Transactional
   public EventDto createEvent(EventCreateDto event, String email) {
     User user = userService.findByEmail(email);
     Event createdEvent = eventRepository.save(EventCreateDto.toEntity(event, user));
@@ -42,6 +43,7 @@ public class EventService {
         .orElseThrow(() -> new MeetUpException(MeetUpError.EVENT_NOT_FOUND));
   }
 
+  @Transactional
   public void deleteById(Long id, String email) {
     Event event =
         eventRepository
@@ -54,6 +56,7 @@ public class EventService {
     eventRepository.deleteById(id);
   }
 
+  @Transactional
   public void manageEventAttendance(String email, Long id) {
     Event event =
         eventRepository

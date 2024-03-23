@@ -7,6 +7,7 @@ import meetup.connect.user.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -30,7 +31,7 @@ public class Event {
       name = "user_event",
       joinColumns = @JoinColumn(name = "user_id"),
       inverseJoinColumns = @JoinColumn(name = "event_id"))
-  private Set<User> attendees;
+  private Set<User> attendees = new HashSet<>();
 
   @CreationTimestamp private LocalDateTime createdAt;
 
@@ -41,7 +42,9 @@ public class Event {
       LocalDateTime dateTo,
       String address,
       LocalDateTime createdAt,
-      EventType type) {
+      EventType type,
+      User owner,
+      Set<User> attendees) {
     this.id = id;
     this.name = name;
     this.dateFrom = dateFrom;
@@ -49,6 +52,8 @@ public class Event {
     this.address = address;
     this.createdAt = createdAt;
     this.type = type;
+    this.owner = owner;
+    this.attendees = attendees;
   }
 
   public Event(
@@ -57,15 +62,13 @@ public class Event {
       LocalDateTime dateTo,
       String address,
       EventType type,
-      User owner,
-      Set<User> attendees) {
+      User owner) {
     this.name = name;
     this.dateFrom = dateFrom;
     this.dateTo = dateTo;
     this.address = address;
     this.type = type;
     this.owner = owner;
-    this.attendees = attendees;
   }
 
   public Event() {}

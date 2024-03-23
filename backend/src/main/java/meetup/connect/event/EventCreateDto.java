@@ -49,8 +49,7 @@ public record EventCreateDto(
         eventDto.dateTo(),
         eventDto.address(),
         eventDto.type(),
-            user,
-            Collections.emptySet());
+            user);
   }
 
   private boolean isMultipleDaysCasualEvent(
