@@ -3,10 +3,13 @@ package meetup.connect.event;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import meetup.connect.user.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -18,6 +21,18 @@ public class Event {
   private LocalDateTime dateTo;
   private String address;
   private EventType type;
+
+  @ManyToOne
+  @JoinColumn(name = "owner_id", nullable = false)
+  private User owner;
+
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(
+      name = "user_event",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "event_id"))
+  private Set<User> attendees = new HashSet<>();
+
   @CreationTimestamp private LocalDateTime createdAt;
 
   public Event(
@@ -27,7 +42,9 @@ public class Event {
       LocalDateTime dateTo,
       String address,
       LocalDateTime createdAt,
-      EventType type) {
+      EventType type,
+      User owner,
+      Set<User> attendees) {
     this.id = id;
     this.name = name;
     this.dateFrom = dateFrom;
@@ -35,15 +52,23 @@ public class Event {
     this.address = address;
     this.createdAt = createdAt;
     this.type = type;
+    this.owner = owner;
+    this.attendees = attendees;
   }
 
   public Event(
-      String name, LocalDateTime dateFrom, LocalDateTime dateTo, String address, EventType type) {
+      String name,
+      LocalDateTime dateFrom,
+      LocalDateTime dateTo,
+      String address,
+      EventType type,
+      User owner) {
     this.name = name;
     this.dateFrom = dateFrom;
     this.dateTo = dateTo;
     this.address = address;
     this.type = type;
+    this.owner = owner;
   }
 
   public Event() {}

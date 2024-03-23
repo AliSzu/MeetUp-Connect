@@ -3,12 +3,14 @@ package meetup.connect.user;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import meetup.connect.event.Event;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,8 +21,19 @@ public class User implements UserDetails {
   private String name;
   private String email;
   private String password;
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL )
+  private Set<Event> organizedEvents;
+  @ManyToMany(mappedBy = "attendees")
+  private Set<Event> events;
 
   public User(Long id, String name, String email, String password) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+    this.password = password;
+  }
+
+  public User(String name, String email, String password) {
     this.id = id;
     this.name = name;
     this.email = email;

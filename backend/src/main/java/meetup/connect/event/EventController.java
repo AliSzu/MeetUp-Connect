@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import meetup.connect.common.page.PageResponse;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -38,13 +40,21 @@ public class EventController {
 
   @DeleteMapping("/{id}")
   @Operation(description = "Delete event by ID")
-  void deleteById(@PathVariable Long id) {
-    eventService.deleteById(id);
+  void deleteById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+    eventService.deleteById(id, userDetails.getUsername());
   }
 
   @PostMapping
   @Operation(description = "Create event")
-  EventDto createEvent(@Valid @RequestBody EventCreateDto event) {
-    return eventService.createEvent(event);
+  EventDto createEvent(
+      @Valid @RequestBody EventCreateDto event, @AuthenticationPrincipal UserDetails userDetails) {
+    return eventService.createEvent(event, userDetails.getUsername());
+  }
+
+  @PostMapping("/{id}/attendees")
+  @Operation(description = "Manage event attendance (sign up or sign out)")
+  void manageEventAttendance(
+      @AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
+    eventService.manageEventAttendance(userDetails.getUsername(), id);
   }
 }

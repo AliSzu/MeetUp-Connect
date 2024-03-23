@@ -7,9 +7,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import meetup.connect.common.exception.MeetUpError;
 import meetup.connect.common.exception.MeetUpException;
+import meetup.connect.user.User;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 public record EventCreateDto(
     @NotBlank @Size(max = 50, message = "Name is too long") String name,
@@ -40,13 +42,14 @@ public record EventCreateDto(
     }
   }
 
-  public static Event toEntity(EventCreateDto eventDto) {
+  public static Event toEntity(EventCreateDto eventDto, User user) {
     return new Event(
         eventDto.name(),
         eventDto.dateFrom(),
         eventDto.dateTo(),
         eventDto.address(),
-        eventDto.type());
+        eventDto.type(),
+            user);
   }
 
   private boolean isMultipleDaysCasualEvent(
