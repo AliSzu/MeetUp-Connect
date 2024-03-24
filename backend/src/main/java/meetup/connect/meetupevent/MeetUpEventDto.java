@@ -1,40 +1,38 @@
-package meetup.connect.event;
+package meetup.connect.meetupevent;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import meetup.connect.user.User;
 import meetup.connect.user.UserShortDto;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public record EventDto(
+public record MeetUpEventDto(
     Long id,
     String name,
     LocalDateTime dateFrom,
     LocalDateTime dateTo,
     String address,
-    EventType type,
+    MeetUpEventType type,
     LocalDateTime createdAt,
     UserShortDto owner,
     Set<UserShortDto> attendees)
     implements Serializable {
 
-  public static EventDto fromEntity(Event event) {
+  public static MeetUpEventDto fromEntity(MeetUpEvent meetUpEvent) {
 
-    return new EventDto(
-        event.getId(),
-        event.getName(),
-        event.getDateFrom(),
-        event.getDateTo(),
-        event.getAddress(),
-        event.getType(),
-        event.getCreatedAt(),
+    return new MeetUpEventDto(
+        meetUpEvent.getId(),
+        meetUpEvent.getName(),
+        meetUpEvent.getDateFrom(),
+        meetUpEvent.getDateTo(),
+        meetUpEvent.getAddress(),
+        meetUpEvent.getType(),
+        meetUpEvent.getCreatedAt(),
         new UserShortDto(
-            event.getOwner().getId(), event.getOwner().getName(), event.getOwner().getUsername()),
-        attendeesFromEntity(event.getAttendees()));
+            meetUpEvent.getOwner().getId(), meetUpEvent.getOwner().getName(), meetUpEvent.getOwner().getUsername()),
+        attendeesFromEntity(meetUpEvent.getAttendees()));
   }
 
   private static Set<UserShortDto> attendeesFromEntity(Set<User> attendees) {

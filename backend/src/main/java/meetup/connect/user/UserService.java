@@ -2,10 +2,8 @@ package meetup.connect.user;
 
 import meetup.connect.common.exception.MeetUpError;
 import meetup.connect.common.exception.MeetUpException;
-import meetup.connect.event.EventDto;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 

@@ -1,4 +1,4 @@
-package meetup.connect.event;
+package meetup.connect.meetupevent;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,49 +12,49 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Tag(name = "Event")
 @RequestMapping("/api/events")
-public class EventController {
+public class MeetUpEventController {
 
-  private final EventService eventService;
+  private final MeetUpEventService meetUpEventService;
 
-  public EventController(EventService eventService) {
-    this.eventService = eventService;
+  public MeetUpEventController(MeetUpEventService meetUpEventService) {
+    this.meetUpEventService = meetUpEventService;
   }
 
   @GetMapping()
   @Operation(description = "Lists events")
-  PageResponse<EventDto> getEventPage(
+  PageResponse<MeetUpEventDto> getEventPage(
       @Parameter(description = "The initial page from which to return the results.")
           @RequestParam(required = false, defaultValue = "0")
           Integer page,
       @Parameter(description = "Number of results to return per page")
           @RequestParam(required = false, defaultValue = "5")
           Integer size) {
-    return eventService.getPage(page, size);
+    return meetUpEventService.getPage(page, size);
   }
 
   @GetMapping("/{id}")
   @Operation(description = "Get event by ID")
-  EventDto getEventById(@PathVariable Long id) {
-    return eventService.getById(id);
+  MeetUpEventDto getEventById(@PathVariable Long id) {
+    return meetUpEventService.getById(id);
   }
 
   @DeleteMapping("/{id}")
   @Operation(description = "Delete event by ID")
   void deleteById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
-    eventService.deleteById(id, userDetails.getUsername());
+    meetUpEventService.deleteById(id, userDetails.getUsername());
   }
 
   @PostMapping
   @Operation(description = "Create event")
-  EventDto createEvent(
-      @Valid @RequestBody EventCreateDto event, @AuthenticationPrincipal UserDetails userDetails) {
-    return eventService.createEvent(event, userDetails.getUsername());
+  MeetUpEventDto createEvent(
+          @Valid @RequestBody MeetUpEventCreateDto event, @AuthenticationPrincipal UserDetails userDetails) {
+    return meetUpEventService.createEvent(event, userDetails.getUsername());
   }
 
   @PostMapping("/{id}/attendees")
   @Operation(description = "Manage event attendance (sign up or sign out)")
   void manageEventAttendance(
       @AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
-    eventService.manageEventAttendance(userDetails.getUsername(), id);
+    meetUpEventService.manageEventAttendance(userDetails.getUsername(), id);
   }
 }

@@ -1,13 +1,13 @@
 package meetup.connect;
 
-import meetup.connect.config.DataGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
+
+import meetup.connect.config.CalendarProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication
+@EnableConfigurationProperties(CalendarProperties.class)
 public class Application {
 
 	public static void main(String[] args) {

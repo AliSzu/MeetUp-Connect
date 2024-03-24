@@ -1,7 +1,7 @@
 package meetup.connect.user;
 
-import meetup.connect.event.Event;
-import meetup.connect.event.EventDto;
+import meetup.connect.meetupevent.MeetUpEvent;
+import meetup.connect.meetupevent.MeetUpEventDto;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 /** DTO for {@link User} */
 public record UserReadDto(
-    Long id, String name, String email, Set<EventDto> organizedEvents, Set<EventDto> events)
+        Long id, String name, String email, Set<MeetUpEventDto> organizedEvents, Set<MeetUpEventDto> events)
     implements Serializable {
 
   public static UserReadDto fromEntity(User user) {
@@ -17,11 +17,11 @@ public record UserReadDto(
         user.getId(),
         user.getName(),
         user.getEmail(),
-        eventSetFromEntity(user.getOrganizedEvents()),
-        eventSetFromEntity(user.getEvents()));
+        eventSetFromEntity(user.getOrganizedMeetUpEvents()),
+        eventSetFromEntity(user.getMeetUpEvents()));
   }
 
-  private static Set<EventDto> eventSetFromEntity(Set<Event> events) {
-    return events.stream().map(EventDto::fromEntity).collect(Collectors.toSet());
+  private static Set<MeetUpEventDto> eventSetFromEntity(Set<MeetUpEvent> meetUpEvents) {
+    return meetUpEvents.stream().map(MeetUpEventDto::fromEntity).collect(Collectors.toSet());
   }
 }
