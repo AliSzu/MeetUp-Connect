@@ -40,7 +40,7 @@ public class DataGenerator implements CommandLineRunner {
   }
 
   private void createEvents(int timeOffset, MeetUpEventType meetUpEventType, String email) {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 1; i++) {
       LocalDateTime randomDate = LocalDateTime.now();
       MeetUpEventCreateDto event =
           new MeetUpEventCreateDto(
