@@ -53,7 +53,6 @@ public class GoogleCalendar {
   }
 
   private Credential getCredentials() throws IOException {
-    System.out.println(calendarProperties.getClient_id());
     GoogleAuthorizationCodeFlow flow =
         new GoogleAuthorizationCodeFlow.Builder(
                 new NetHttpTransport(),

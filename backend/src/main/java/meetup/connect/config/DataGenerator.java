@@ -33,14 +33,12 @@ public class DataGenerator implements CommandLineRunner {
     List<MeetUpEvent> meetUpEvents = meetUpEventRepository.findAll();
     User user = userService.createUser(new User(faker.name().toString(), faker.internet().emailAddress(), faker.internet().password()));
     if (meetUpEvents.isEmpty()) {
-      createEvents(2, MeetUpEventType.PARTY, user.getEmail());
       createEvents(10, MeetUpEventType.CULTURAL_EVENT, user.getEmail());
-      createEvents(1, MeetUpEventType.CASUAL_GET_TOGETHER, user.getEmail());
     }
   }
 
   private void createEvents(int timeOffset, MeetUpEventType meetUpEventType, String email) {
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 4; i++) {
       LocalDateTime randomDate = LocalDateTime.now();
       MeetUpEventCreateDto event =
           new MeetUpEventCreateDto(
