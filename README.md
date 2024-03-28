@@ -2,7 +2,6 @@
 Backend for application to manage social events.
 
 ## Tech
-<hr>
 <ul>
 <li>Spring Boot - Server side framework</li>
 <li>Spring Security - Authentication and access-control framework</li>
@@ -12,7 +11,6 @@ Backend for application to manage social events.
 </ul>
 
 ## Features
-<hr>
 <ul>
 <li>Implemented features, such as:
 <ul><li>Creation, deletion, and updating of events.</li>
