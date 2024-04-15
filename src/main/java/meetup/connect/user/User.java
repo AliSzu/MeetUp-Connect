@@ -7,10 +7,7 @@ import meetup.connect.meetupevent.MeetUpEvent;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -23,10 +20,10 @@ public class User implements UserDetails {
   private String password;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
-  private Set<MeetUpEvent> organizedMeetUpEvents;
+  private Set<MeetUpEvent> organizedMeetUpEvents = new HashSet<>();
 
   @ManyToMany(mappedBy = "attendees")
-  private Set<MeetUpEvent> meetUpEvents;
+  private Set<MeetUpEvent> meetUpEvents = new HashSet<>();
 
   public User(Long id, String name, String email, String password) {
     this.id = id;
@@ -36,7 +33,6 @@ public class User implements UserDetails {
   }
 
   public User(String name, String email, String password) {
-    this.id = id;
     this.name = name;
     this.email = email;
     this.password = password;
@@ -88,6 +84,7 @@ public class User implements UserDetails {
   }
 
   public boolean isGmailUser() {
+    if(this.getEmail().isEmpty()) return false;
     return this.getEmail().contains("@gmail.com");
   }
 }
