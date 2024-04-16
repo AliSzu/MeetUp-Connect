@@ -29,6 +29,8 @@ class MeetUpMeetUpEventServiceTest {
   @Mock private UserService userService;
   @Mock private MeetUpEventRepository meetUpEventRepository;
 
+  @Mock private GoogleCalendar googleCalendar;
+
   @Test
   @DisplayName("When there are no events, the page should be empty")
   void pageShouldBeEmptyWhenThereIsNoData() {
