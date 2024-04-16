@@ -42,13 +42,14 @@ public class MeetUpEventController {
   }
 
   @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @Operation(description = "Delete event by ID")
   void deleteById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
     meetUpEventService.deleteById(id, userDetails.getUsername());
   }
 
   @PostMapping
-  @ResponseStatus(HttpStatus.OK)
+  @ResponseStatus(HttpStatus.CREATED)
   @Operation(description = "Create event")
   MeetUpEventDto createEvent(
           @Valid @RequestBody MeetUpEventCreateDto event, @AuthenticationPrincipal UserDetails userDetails) {

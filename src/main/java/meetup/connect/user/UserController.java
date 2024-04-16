@@ -22,7 +22,7 @@ public class UserController {
   }
 
   @GetMapping
-  @ResponseStatus(HttpStatus.OK)
+  @ResponseStatus(HttpStatus.CREATED)
   @Operation(description = "Get all users")
   Set<UserReadDto> getAll() {
     return userService.findAll();

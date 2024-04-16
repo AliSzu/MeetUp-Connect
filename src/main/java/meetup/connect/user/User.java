@@ -84,7 +84,7 @@ public class User implements UserDetails {
   }
 
   public boolean isGmailUser() {
-    if(this.getEmail().isEmpty()) return false;
+    if(this.getEmail() == null) return false;
     return this.getEmail().contains("@gmail.com");
   }
 }
