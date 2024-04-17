@@ -14,14 +14,13 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventAttendee;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
-import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
-import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import io.vavr.control.Try;
 import meetup.connect.common.exception.MeetUpError;
 import meetup.connect.common.exception.MeetUpException;
 import meetup.connect.config.CalendarProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -29,9 +28,10 @@ import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
+
+import static meetup.connect.googleApi.GoogleServiceCircuitBreaker.GOOGLE_CALENDAR_CIRCUIT_BREAKER;
 
 
 @Service
@@ -43,7 +43,6 @@ public class GoogleCalendar {
 
   /** Directory to store authorization tokens for this application. */
   private static final String TOKENS_DIRECTORY_PATH = "token";
-  private static final String CIRCUIT_BREAKER_NAME = "googleApiService";
   private static final Integer PORT = 8888;
 
   private static final String CALENDAR_ID = "primary";
@@ -56,10 +55,13 @@ public class GoogleCalendar {
   private static final List<String> SCOPES = List.of(CalendarScopes.CALENDAR_EVENTS);
 
   private final CalendarProperties calendarProperties;
+  private final CircuitBreaker circuitBreaker;
   private static Calendar service;
 
-  public GoogleCalendar(CalendarProperties calendarProperties) {
+  public GoogleCalendar(CalendarProperties calendarProperties, @Qualifier(value = GOOGLE_CALENDAR_CIRCUIT_BREAKER)CircuitBreaker circuitBreaker) {
+
     this.calendarProperties = calendarProperties;
+    this.circuitBreaker = circuitBreaker;
   }
 
   private Credential getCredentials() throws IOException {
@@ -93,11 +95,6 @@ public class GoogleCalendar {
   }
 
   private Supplier<Calendar> getGoogleCalendarSupplier() {
-    CircuitBreakerConfig googleApiServiceConfig = CircuitBreakerConfig.ofDefaults();
-    CircuitBreakerRegistry circuitBreakerRegistry = CircuitBreakerRegistry.of(
-            Map.of(CIRCUIT_BREAKER_NAME, googleApiServiceConfig)
-    );
-    CircuitBreaker circuitBreaker = circuitBreakerRegistry.circuitBreaker(CIRCUIT_BREAKER_NAME);
 
     Supplier<Calendar> googleApiCall = () -> {
       try {
