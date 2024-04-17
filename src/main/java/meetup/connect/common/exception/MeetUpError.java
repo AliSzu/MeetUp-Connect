@@ -14,7 +14,8 @@ public enum MeetUpError {
   PAST_DATE("The start date must be in the future", HttpStatus.BAD_REQUEST),
   EMAIL_NOT_FOUND("user with this email does not exists", HttpStatus.NOT_FOUND),
   INSUFFICIENT_PERMISSIONS("insufficient permissions", HttpStatus.UNAUTHORIZED),
-  OWNER_ATTENDEE("owner can not register/unregister from the event that they are hosting", HttpStatus.CONFLICT);
+  OWNER_ATTENDEE("owner can not register/unregister from the event that they are hosting", HttpStatus.CONFLICT),
+  GOOGLE_CALENDAR("Sorry, there's an issue with Google Calendar. Please try again later", HttpStatus.SERVICE_UNAVAILABLE);
 
   private final String message;
   private final HttpStatus httpStatus;

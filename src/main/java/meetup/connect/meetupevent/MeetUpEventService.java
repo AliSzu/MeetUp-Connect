@@ -7,6 +7,7 @@ import com.google.api.services.calendar.model.EventDateTime;
 import meetup.connect.common.exception.MeetUpError;
 import meetup.connect.common.exception.MeetUpException;
 import meetup.connect.common.page.PageResponse;
+import meetup.connect.googleApi.GoogleCalendar;
 import meetup.connect.user.User;
 import meetup.connect.user.UserService;
 import org.springframework.data.domain.Page;
