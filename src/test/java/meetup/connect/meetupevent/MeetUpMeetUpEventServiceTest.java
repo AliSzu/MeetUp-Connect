@@ -2,6 +2,7 @@ package meetup.connect.meetupevent;
 
 import meetup.connect.common.exception.MeetUpException;
 import meetup.connect.common.page.PageResponse;
+import meetup.connect.googleApi.GoogleCalendar;
 import meetup.connect.testutils.Constants;
 import meetup.connect.testutils.EventFactory;
 import meetup.connect.testutils.UserFactory;
